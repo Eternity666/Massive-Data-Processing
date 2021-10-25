@@ -10,13 +10,18 @@
 - 对题目所给语料进行预处理，总计得到3148篇文本，将同文章的词合并在一个列表中，并且去掉中文停用词；
 - 基线模型讨论与算法优化，通过理论分析和实验确定更优的解法；
 - 计算每篇文章中每个词的TF-IDF值，并降序排列，每篇筛选出前10（也可以是其他数字，可根据实际情况和计算性能进行调整）个TF-IDF较大的词作为关键词；
-- 将每篇文章的关键词组合在一起求并集，组成关键词词袋，并以该词袋为基准，统计每篇文章在该词袋上的词频，生成代表可以每篇文章的向量；
+- 将每篇文章的关键词组合在一起求并集，组成关键词词袋，并以该词袋为基准，统计每篇文章在该词袋上的词频，生成可以代表每篇文章的向量；
 - 对向量计算两两相似度（可选的计算方法有余弦相似度、欧氏距离、Jacard相似度和海明距离等等），生成相似度矩阵（用下三角矩阵存储）。
 - 由于数据量较大且个人PC算力有限，基线模型的运行时间非常长，所以本文考虑使用多进程优化来提高运算效率。
 - 完成本次作业的数据和全部代码，已共享在Github平台（链接：https://github.com/Eternity666/Massive-Data-Processing/tree/main/Text_Similarity）上，欢迎大家提出建议~~
 
 > **说明**：本次作业的代码中，数据全部用Python自带的数据结构（列表、字典和元组等）进行存储，计算方法全部基于自带数据结构进行编写，没有调用numpy、pandas、sklearn等任何库。
 
+
+
+## 目录
+
+[TOC]
 
 
 
@@ -286,7 +291,7 @@ end_time = time.time()
 print("\nRunning time: ", end_time - start_time)
 ```
 
-将每篇文章的关键词组合在一起求并集，组成关键词词袋（共15407个关键词），并以该词袋为基准，统计每篇文章在该词袋上的词频（也可以用词袋中每个词语的TF-IDF值替代词频），生成可以代表每篇文章的向量。
+将每篇文章的关键词组合在一起求并集，组成关键词词袋（共15407个关键词），并以该词袋为基准，统计每篇文章在该词袋上的词频，生成可以代表每篇文章的向量。
 
 ```python
 all_keywords = [i for i in keywords_list_by_essay[0]]
@@ -310,6 +315,27 @@ for i in range(len(words_list_by_essay)):
     for j in words_list_by_essay[i]:
         if j in all_keywords:
             keyword_count[keyword2Index[j]] += 1
+    keyword_count_by_essay.append(keyword_count)
+    print(f"\r{i + 1}/3148, complete!", end='')
+end_time = time.time()
+print("\nRunning time: ", end_time - start_time)
+```
+
+为了使相似度的计算更加准确，消除文本长度的影响，我们也可以用词袋中每个词语的TF-IDF值替代词频，作为每篇文本的向量表示。
+
+```python
+print("\nBuilding Bag-of-keywords Model by using TF-IDF...")
+start_time = time.time()
+keyword_count_by_essay = []
+for i in range(len(words_list_by_essay)):
+    keyword_count = [0 for _ in range(len(all_keywords))]
+    for j in words_list_by_essay[i]:
+        if j in all_keywords:
+            keyword_count[keyword2Index[j]] += 1
+    for j in range(len(keyword_count)):
+        tf = keyword_count[j] / all_words_count_by_essay[i]
+        idf = log(len(words_list_by_essay) / (word2essay_count[Index2Keyword[j]] + 1))
+        tf_idf = tf * idf
     keyword_count_by_essay.append(keyword_count)
     print(f"\r{i + 1}/3148, complete!", end='')
 end_time = time.time()
