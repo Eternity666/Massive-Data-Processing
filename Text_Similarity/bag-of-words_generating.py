@@ -133,7 +133,6 @@ for i in range(len(words_list_by_essay)):
 end_time = time.time()
 print("\nRunning time: ", end_time - start_time)
 
-# print(keywords_list_by_essay)
 
 all_keywords = [i for i in keywords_list_by_essay[0]]
 # print(all_keywords)
