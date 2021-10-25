@@ -74,4 +74,3 @@ if __name__ == '__main__':
     # result_file.close()
     end_time = time.time()
     print("Running time: ", end_time - start_time)
-
