@@ -11,7 +11,7 @@
 - 基线模型讨论与算法优化，通过理论分析和实验确定更优的解法；
 - 计算每篇文章中每个词的TF-IDF值，并降序排列，每篇筛选出前10（也可以是其他数字，可根据实际情况和计算性能进行调整）个TF-IDF较大的词作为关键词；
 - 将每篇文章的关键词组合在一起求并集，组成关键词词袋，并以该词袋为基准，统计每篇文章在该词袋上的词频，生成可以代表每篇文章的向量；
-- 对向量计算两两相似度（可选的计算方法有余弦相似度、欧氏距离、Jacard相似度和海明距离等等），生成相似度矩阵（用下三角矩阵存储）。
+- 对向量计算两两相似度（可选的计算方法有余弦相似度、欧氏距离、Jacard相似度和海明距离等等），生成相似度矩阵（用下三角矩阵存储）；
 - 由于数据量较大且个人PC算力有限，基线模型的运行时间非常长，所以本文考虑使用多进程优化来提高运算效率。
 - 完成本次作业的数据和全部代码，已共享在Github平台（链接：https://github.com/Eternity666/Massive-Data-Processing/tree/main/Text_Similarity）上，欢迎大家提出建议~~
 
@@ -30,7 +30,9 @@
 - 看起来进行了很多适应性调整的常用公式，是不是适合这题目的要求？
 - 如果适合，请选用，如果不适合，请依据本节课内容自行拟定
 
-![image-20211018195847138](C:\Users\Zhihao Yang\AppData\Roaming\Typora\typora-user-images\image-20211018195847138.png)
+<div align=center>
+<img src="https://github.com/Eternity666/Massive-Data-Processing/blob/main/Text_Similarity/img/image-20211018195847138.png"/>
+</div>
 
 - 我认为**不适合**，原因如下
   - 使用该公式计算文本相似度时，必须指定其中一个文本为查询语句```Query```，其余文本为文档语句```Document```，并进行长度规整。
@@ -61,7 +63,9 @@ stop_words = stop_words.split('\n')
 
 - 由原始数据可以看到，每一行的第一个元素记录了文章的标号。```XXXXXXXX-XX-XXX```可作为每篇文章的特定标识，后面的```-XXX```为每篇文章的行号。因此，我们以前者为依据划分文章。
 
-![image-20211024123409578](C:\Users\Zhihao Yang\AppData\Roaming\Typora\typora-user-images\image-20211024123409578.png)
+<div align=center>
+<img src="https://github.com/Eternity666/Massive-Data-Processing/blob/main/Text_Similarity/img/image-20211024123409578.png"/>
+</div>
 
 
 
@@ -69,12 +73,16 @@ stop_words = stop_words.split('\n')
 
   - 不同文章之间没有空行；
 
-    ![image-20211024123751078](C:\Users\Zhihao Yang\AppData\Roaming\Typora\typora-user-images\image-20211024123751078.png)
+<div align=center>
+<img src="https://github.com/Eternity666/Massive-Data-Processing/blob/main/Text_Similarity/img/image-20211024123751078.png"/>
+</div>
 
   - 同一篇文章内，会出现空行分隔。
 
-<img src="C:\Users\Zhihao Yang\AppData\Roaming\Typora\typora-user-images\image-20211024123850978.png" alt="image-20211024123850978" style="zoom: 67%;" />
-
+<div align=center>
+<img src="https://github.com/Eternity666/Massive-Data-Processing/blob/main/Text_Similarity/img/image-20211024123850978.png" alt="image-20211024123850978" style="zoom: 67%;" />
+</div>
+  
 ​		因此，不能简单使用```\n```来划分文章。本作业编写的划分文章代码如下，得到的文本数量为**3148**篇。
 
 
@@ -512,7 +520,9 @@ if __name__ == '__main__':
 
 程序计算得到文本之间的两两相似度矩阵，将部分展示如下图
 
-![image-20211025153724193](C:\Users\Zhihao Yang\AppData\Roaming\Typora\typora-user-images\image-20211025153724193.png)
+<div align=center>
+<img src="https://github.com/Eternity666/Massive-Data-Processing/blob/main/Text_Similarity/img/image-20211025153724193.png"/>
+</div>
 
 同样的，给定两篇文章的编号，我们也可以通过运行查询代码直接获取两篇文章的相似度。
 
