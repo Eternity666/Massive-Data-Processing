@@ -13,7 +13,7 @@
 - 将每篇文章的关键词组合在一起求并集，组成关键词词袋，并以该词袋为基准，统计每篇文章在该词袋上的词频，生成可以代表每篇文章的向量；
 - 对向量计算两两相似度（可选的计算方法有余弦相似度、欧氏距离、Jacard相似度和海明距离等等），生成相似度矩阵（用下三角矩阵存储）；
 - 由于数据量较大且个人PC算力有限，基线模型的运行时间非常长，所以本文考虑使用多进程优化来提高运算效率。
-- 完成本次作业的数据和全部代码，已共享在Github平台（链接：https://github.com/Eternity666/Massive-Data-Processing/tree/main/Text_Similarity）上，欢迎大家提出建议~~
+- 完成本次作业的数据和全部代码，已共享在Github平台（[链接](https://github.com/Eternity666/Massive-Data-Processing/tree/main/Text_Similarity)）上，欢迎大家提出建议~~
 
 > **说明**：本次作业的代码中，数据全部用Python自带的数据结构（列表、字典和元组等）进行存储，计算方法全部基于自带数据结构进行编写，没有调用numpy、pandas、sklearn等任何库。
 
